@@ -1,4 +1,4 @@
-name: Blog Frontend CI
+name: Recipe Frontend CI
 on:
   push:
     branches:
