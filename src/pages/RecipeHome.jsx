@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Header } from '../components/Header.jsx'
 import { CreateRecipe } from '../components/CreateRecipe.jsx'
@@ -5,12 +6,13 @@ import { RecipeList } from '../components/RecipeList.jsx'
 import { getRecipes } from '../api/recipes.js'
 
 export function RecipeHome() {
+  const [sortOrder, setSortOrder] = useState('descending')
   const recipesQuery = useQuery({
-    queryKey: ['recipes'],
+    queryKey: ['recipes', sortOrder],
     queryFn: () =>
       getRecipes({
-        sortBy: 'createdAt',
-        sortOrder: 'descending',
+        sortBy: 'likes',
+        sortOrder,
       }),
   })
 
@@ -30,7 +32,17 @@ export function RecipeHome() {
 
       <hr />
 
-      <h2>Latest Recipes</h2>
+      <h2>Recipes</h2>
+
+      <label htmlFor='sort-likes'>Sort by likes: </label>
+      <select
+        id='sort-likes'
+        value={sortOrder}
+        onChange={(event) => setSortOrder(event.target.value)}
+      >
+        <option value='descending'>Most Liked</option>
+        <option value='ascending'>Least Liked</option>
+      </select>
 
       {recipesQuery.isPending && <p>Loading recipes...</p>}
 

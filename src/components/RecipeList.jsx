@@ -11,7 +11,7 @@ export function RecipeList({ recipes = [] }) {
     <div>
       {recipes.map((recipe) => (
         <Fragment key={recipe._id}>
-          <Recipe {...recipe} />
+          <Recipe {...recipe} linkTitle />
           <hr />
         </Fragment>
       ))}

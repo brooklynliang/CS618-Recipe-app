@@ -1,3 +1,4 @@
+import { ViewRecipe } from './pages/ViewRecipe.jsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { RecipeHome } from './pages/RecipeHome.jsx'
 import { Signup } from './pages/Signup.jsx'
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: '/recipes/:recipeId',
+    element: <ViewRecipe />,
   },
 ])
 

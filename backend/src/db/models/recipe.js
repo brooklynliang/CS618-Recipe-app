@@ -21,6 +21,12 @@ const recipeSchema = new Schema(
       ref: 'user',
       required: true,
     },
+    likes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+      },
+    ],
   },
   { timestamps: true },
 )

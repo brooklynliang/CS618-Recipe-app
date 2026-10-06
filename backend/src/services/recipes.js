@@ -16,6 +16,24 @@ async function listRecipes(
   query = {},
   { sortBy = 'createdAt', sortOrder = 'descending' } = {},
 ) {
+  if (sortBy === 'likes') {
+    return await Recipe.aggregate([
+      {
+        $match: query,
+      },
+      {
+        $addFields: {
+          likeCount: { $size: { $ifNull: ['$likes', []] } },
+        },
+      },
+      {
+        $sort: {
+          likeCount: sortOrder === 'ascending' ? 1 : -1,
+        },
+      },
+    ])
+  }
+
   return await Recipe.find(query).sort({ [sortBy]: sortOrder })
 }
 
@@ -61,4 +79,16 @@ export async function deleteRecipe(userId, recipeId) {
     _id: recipeId,
     author: userId,
   })
+}
+
+export async function likeRecipe(userId, recipeId) {
+  return await Recipe.findByIdAndUpdate(
+    recipeId,
+    {
+      $addToSet: {
+        likes: userId,
+      },
+    },
+    { new: true },
+  )
 }

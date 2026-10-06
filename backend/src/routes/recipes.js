@@ -5,6 +5,7 @@ import {
   updateRecipe,
   deleteRecipe,
   getRecipeById,
+  likeRecipe,
 } from '../services/recipes.js'
 import { requireAuth } from '../middleware/jwt.js'
 
@@ -61,6 +62,21 @@ export function recipesRoutes(app) {
       return res.json(recipe)
     } catch (err) {
       console.error('error updating recipe', err)
+      return res.status(500).end()
+    }
+  })
+
+  app.patch('/api/v1/recipes/:id/like', requireAuth, async (req, res) => {
+    try {
+      const recipe = await likeRecipe(req.auth.sub, req.params.id)
+
+      if (recipe === null) {
+        return res.status(404).end()
+      }
+
+      return res.json(recipe)
+    } catch (err) {
+      console.error('error liking recipe', err)
       return res.status(500).end()
     }
   })
