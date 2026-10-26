@@ -5,13 +5,20 @@ import { Signup } from './pages/Signup.jsx'
 import { Login } from './pages/Login.jsx'
 import { AuthContextProvider } from './contexts/AuthContext.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { SocketIOContextProvider } from './contexts/SocketIOContext.jsx'
+import { RecipeNotification } from './components/RecipeNotification.jsx'
 
 const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <RecipeHome />,
+    element: (
+      <>
+        <RecipeHome />
+        <RecipeNotification />
+      </>
+    ),
   },
   {
     path: '/signup',
@@ -31,7 +38,9 @@ export function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
-        <RouterProvider router={router} />
+        <SocketIOContextProvider>
+          <RouterProvider router={router} />
+        </SocketIOContextProvider>
       </AuthContextProvider>
     </QueryClientProvider>
   )

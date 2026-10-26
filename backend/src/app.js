@@ -9,7 +9,9 @@ const app = express()
 app.use(bodyParser.json())
 app.use(cors())
 
-recipesRoutes(app)
+export function registerRecipeRoutes(io) {
+  recipesRoutes(app, io)
+}
 userRoutes(app)
 
 app.get('/', (req, res) => {
